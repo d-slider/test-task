@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Июн 30 2022 г., 20:14
+-- Время создания: Июл 01 2022 г., 16:35
 -- Версия сервера: 5.7.35-38
 -- Версия PHP: 7.4.26
 
@@ -27,33 +27,20 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `category` (
-  `category_id` int(10) NOT NULL,
+  `category_id` int(10) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(100) NOT NULL,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Дамп данных таблицы `category`
 --
 
 INSERT INTO `category` (`category_id`, `category_name`) VALUES
-(1, 'Отзыв'),
-(2, 'Предложение'),
-(3, 'Жалоба'),
-(4, 'Рекламация');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `client`
---
-
-CREATE TABLE IF NOT EXISTS `client` (
-  `client_id` int(10) NOT NULL,
-  `fio` varchar(255) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  PRIMARY KEY (`client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+(0, 'Отзыв'),
+(1, 'Предложение'),
+(2, 'Жалоба'),
+(3, 'Рекламация');
 
 -- --------------------------------------------------------
 
@@ -62,14 +49,24 @@ CREATE TABLE IF NOT EXISTS `client` (
 --
 
 CREATE TABLE IF NOT EXISTS `feedback` (
-  `feedback_id` int(11) NOT NULL,
+  `feedback_id` int(11) NOT NULL AUTO_INCREMENT,
+  `fio` varchar(255) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `client_id` int(11) NOT NULL,
-  `feedback_text` varchar(255) NOT NULL,
+  `feedback_text` text NOT NULL,
   PRIMARY KEY (`feedback_id`),
-  KEY `feedback_FK_1` (`category_id`),
-  KEY `feedback_FK_2` (`client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  KEY `feedback_FK_1` (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Дамп данных таблицы `feedback`
+--
+
+INSERT INTO `feedback` (`feedback_id`, `fio`, `email`, `category_id`, `feedback_text`) VALUES
+(6, 'Иванов Иван Иванович', 'ivanov@yandex.ru', 1, 'Так держать!'),
+(7, 'Петров Пётр Петрович', 'зуекщм@yandex.ru', 2, 'Плохо работаете!'),
+(8, 'Сидоров Сидор Сидровоич', 'sidorov@yandex.ru', 3, 'Верните деньги!'),
+(9, 'Акакий Акакиевич', 'akayevich@gmail.com', 0, 'Хорошая у вас компания.');
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -79,8 +76,7 @@ CREATE TABLE IF NOT EXISTS `feedback` (
 -- Ограничения внешнего ключа таблицы `feedback`
 --
 ALTER TABLE `feedback`
-  ADD CONSTRAINT `feedback_FK_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`),
-  ADD CONSTRAINT `feedback_FK_2` FOREIGN KEY (`client_id`) REFERENCES `client` (`client_id`);
+  ADD CONSTRAINT `feedback_FK_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
