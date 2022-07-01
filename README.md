@@ -1,1 +1,1 @@
-Test task by Stan v.1.0.
+Test task by Stan v. 1.0.
